@@ -1,0 +1,20 @@
+server {
+  listen 443 ssl<%= @default_server ? " default_server" : "" %>;
+  listen [::]:443 ssl<%= @default_server ? " default_server" : "" %>;
+  <%- if @default_server %>
+  server_name _;
+  <%- else %>
+  server_name <%= @domain %>;
+  <%- end %>
+
+  access_log /var/log/nginx/<%= @domain %>_access.log;
+  error_log /var/log/nginx/<%= @domain %>_error.log;
+
+  # Dynamic handler for issuing or returning certs for SNI domains.
+  ssl_certificate_by_lua_block {
+    auto_ssl:ssl_certificate()
+  }
+
+  ssl_certificate <%= nginx_ssl_fallback_cert_path %>;
+  ssl_certificate_key <%= nginx_ssl_fallback_key_path %>;
+}

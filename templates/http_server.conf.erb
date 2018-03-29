@@ -1,0 +1,24 @@
+server {
+  listen 80<%= @default_server ? " default_server" : "" %>;
+  listen [::]:80<%= @default_server ? " default_server" : "" %>;
+  <%- if @default_server %>
+  server_name _;
+  <%- else %>
+  server_name <%= @domain %>;
+  <%- end %>
+
+  <%- if @default_server %>
+  # Endpoint used for performing domain verification with Let's Encrypt.
+  location /.well-known/acme-challenge/ {
+    content_by_lua_block {
+      auto_ssl:challenge_server()
+    }
+  }
+  <% end %>
+
+  <%- if @redirect_to_https %>
+  location / {
+    return 301 https://$http_host$request_uri;
+  }
+  <% end %>
+}
