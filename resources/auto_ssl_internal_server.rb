@@ -15,7 +15,9 @@ action :create do
   openresty_luarock "lua-resty-auto-ssl"
 
   auto_ssl_internal_server_path =
-    ::File.join(nginx_enabled_path(node: node), "zzz-auto-ssl-internal.conf")
+    ::File.join(
+      nginx_sites_enabled_path(node: node), "zzz-auto-ssl-internal.conf"
+    )
 
   nginx_service = with_run_context(:root) do
     find_resource(:service, "nginx") do

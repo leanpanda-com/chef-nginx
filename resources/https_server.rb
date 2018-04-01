@@ -5,15 +5,10 @@ default_action :create
 
 property :name, String, default: "default_server"
 property :default_server, [true, false], default: false
+property :proxies, Hash, default: {}
 
 action_class do
-  def server_conf_path
-    ::File.join(sites_enabled_path, "https-" + new_resource.name + ".conf")
-  end
-
-  def sites_enabled_path
-    ::File.join("", "etc", "nginx", "sites-enabled")
-  end
+  include Nginx::Conf
 end
 
 action :create do
@@ -29,12 +24,18 @@ action :create do
     end
   end
 
-  template server_conf_path do
+  https_server_path = nginx_https_server_conf_path(
+    new_resource.name,
+    node: node
+  )
+
+  template https_server_path do
     source "https_server.conf.erb"
 
     variables(
       domain: new_resource.name,
-      default_server: new_resource.default_server
+      default_server: new_resource.default_server,
+      proxies: new_resource.proxies
     )
 
     new_resource.notifies :restart, nginx_service, :delayed
