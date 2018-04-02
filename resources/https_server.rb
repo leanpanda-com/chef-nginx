@@ -6,6 +6,7 @@ default_action :create
 property :name, String, default: "default_server"
 property :default_server, [true, false], default: false
 property :proxies, Hash, default: {}
+property :extras, Array, default: []
 
 action_class do
   include Nginx::Conf
@@ -35,7 +36,8 @@ action :create do
     variables(
       domain: new_resource.name,
       default_server: new_resource.default_server,
-      proxies: new_resource.proxies
+      proxies: new_resource.proxies,
+      extras: new_resource.extras
     )
 
     new_resource.notifies :restart, nginx_service, :delayed

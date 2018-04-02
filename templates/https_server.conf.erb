@@ -19,6 +19,14 @@ server {
   ssl_certificate_key <%= nginx_ssl_fallback_key_path %>;
 
 <%-
+@extras.each do |extra|
+%>
+<%= extra %>
+<%-
+end
+%>
+
+<%-
 @proxies.each do |upstream, paths|
   paths.each do |path|
 %>
