@@ -15,8 +15,8 @@ server {
     auto_ssl:ssl_certificate()
   }
 
-  ssl_certificate <%= nginx_ssl_fallback_cert_path %>;
-  ssl_certificate_key <%= nginx_ssl_fallback_key_path %>;
+  ssl_certificate <%= @ssl_certificate_path %>;
+  ssl_certificate_key <%= @ssl_key_path %>;
 
 <%-
 @extras.each do |extra|

@@ -5,6 +5,8 @@ default_action :create
 
 property :name, String, default: "default_server"
 property :default_server, [true, false], default: false
+property :ssl_certificate_path, [String, nil]
+property :ssl_key_path, [String, nil]
 property :proxies, Hash, default: {}
 property :extras, Array, default: []
 
@@ -38,6 +40,10 @@ action :create do
     variables(
       domain: new_resource.name,
       default_server: new_resource.default_server,
+      ssl_certificate_path:
+        new_resource.ssl_certificate_path || nginx_ssl_fallback_cert_path,
+      ssl_key_path:
+        new_resource.ssl_key_path || nginx_ssl_fallback_key_path,
       proxies: new_resource.proxies,
       extras: new_resource.extras
     )
