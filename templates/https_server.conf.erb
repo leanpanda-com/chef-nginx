@@ -7,8 +7,10 @@ server {
   server_name <%= @domain %>;
 <%- end %>
 
+<%- if @logging %>
   access_log /var/log/nginx/<%= @domain %>_access.log;
   error_log /var/log/nginx/<%= @domain %>_error.log;
+<%- end %>
 
   # Dynamic handler for issuing or returning certs for SNI domains.
   ssl_certificate_by_lua_block {

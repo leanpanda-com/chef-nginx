@@ -7,6 +7,11 @@ server {
   server_name <%= @domain %>;
   <%- end %>
 
+<%- if @logging %>
+  access_log /var/log/nginx/<%= @domain %>_http_access.log;
+  error_log /var/log/nginx/<%= @domain %>_http_error.log;
+<%- end %>
+
   <%- if @default_server %>
   # Endpoint used for performing domain verification with Let's Encrypt.
   location /.well-known/acme-challenge/ {

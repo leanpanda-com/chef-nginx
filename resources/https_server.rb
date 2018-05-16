@@ -9,6 +9,7 @@ property :ssl_certificate_path, [String, nil]
 property :ssl_key_path, [String, nil]
 property :proxies, Hash, default: {}
 property :extras, Array, default: []
+property :logging, [true, false], default: true
 
 action_class do
   include Nginx::Conf
@@ -45,7 +46,8 @@ action :create do
       ssl_key_path:
         new_resource.ssl_key_path || nginx_ssl_fallback_key_path,
       proxies: new_resource.proxies,
-      extras: new_resource.extras
+      extras: new_resource.extras,
+      logging: new_resource.logging
     )
 
     new_resource.notifies :restart, nginx_service, :delayed

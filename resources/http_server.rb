@@ -8,6 +8,7 @@ property :default_server, [true, false], default: false
 property :redirect_to_https, [true, false], default: false
 property :proxies, Hash, default: {}
 property :extras, Array, default: []
+property :logging, [true, false], default: true
 
 action_class do
   include Nginx::Conf
@@ -37,7 +38,8 @@ action :create do
       default_server: new_resource.default_server,
       redirect_to_https: new_resource.redirect_to_https,
       proxies: new_resource.proxies,
-      extras: new_resource.extras
+      extras: new_resource.extras,
+      logging: new_resource.logging
     )
 
     new_resource.notifies :restart, nginx_service, :delayed
