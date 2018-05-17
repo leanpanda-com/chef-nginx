@@ -18,6 +18,9 @@ end
 action :create do
   include_recipe "openresty"
 
+  nginx_default_site_symlink do
+    action :delete
+  end
   nginx_auto_ssl_config
   nginx_ssl_fallback_certificate
   nginx_auto_ssl_internal_server

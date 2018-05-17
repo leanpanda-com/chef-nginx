@@ -17,6 +17,9 @@ end
 action :create do
   include_recipe "openresty"
 
+  nginx_default_site_symlink do
+    action :delete
+  end
   nginx_auto_ssl_config
 
   nginx_service = with_run_context(:root) do
