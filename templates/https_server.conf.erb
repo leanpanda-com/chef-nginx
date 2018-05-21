@@ -11,11 +11,13 @@ server {
   access_log /var/log/nginx/<%= @domain %>_access.log;
   error_log /var/log/nginx/<%= @domain %>_error.log;
 <%- end %>
+<%- if @auto_ssl %>
 
   # Dynamic handler for issuing or returning certs for SNI domains.
   ssl_certificate_by_lua_block {
     auto_ssl:ssl_certificate()
   }
+<%- end %>
 
   ssl_certificate <%= @ssl_certificate_path %>;
   ssl_certificate_key <%= @ssl_key_path %>;
