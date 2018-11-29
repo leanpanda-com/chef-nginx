@@ -1,0 +1,30 @@
+server {
+  listen 80;
+  listen [::]:80;
+  server_name <%= node["ipaddress"] %>;
+
+  access_log /var/log/nginx/ip_responder_access.log;
+  error_log /var/log/nginx/ip_responder_error.log;
+
+  location / {
+    add_header Content-Type text/plain;
+    return 200 'OK';
+  }
+}
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  server_name <%= node["ipaddress"] %>;
+
+  access_log /var/log/nginx/ip_responder_access.log;
+  error_log /var/log/nginx/ip_responder_error.log;
+
+  ssl_certificate <%= nginx_ssl_fallback_cert_path %>;
+  ssl_certificate_key <%= nginx_ssl_fallback_key_path %>;
+
+  location / {
+    add_header Content-Type text/plain;
+    return 200 'OK';
+  }
+}
