@@ -4,7 +4,6 @@ actions :create
 default_action :create
 
 property :name, String, default: "default_server"
-property :auto_ssl, [true, false], default: true
 property :default_server, [true, false], default: false
 property :ssl_certificate_path, [String, nil]
 property :ssl_key_path, [String, nil]
@@ -17,6 +16,9 @@ action_class do
 end
 
 action :create do
+  auto_ssl =
+    !new_resource.ssl_certificate_path || !new_resource.ssl_key_path
+
   include_recipe "openresty"
 
   nginx_default_site_symlink do
@@ -44,7 +46,7 @@ action :create do
 
     variables(
       domain: new_resource.name,
-      auto_ssl: new_resource.auto_ssl,
+      auto_ssl: auto_ssl,
       default_server: new_resource.default_server,
       ssl_certificate_path:
         new_resource.ssl_certificate_path || nginx_ssl_fallback_cert_path,
