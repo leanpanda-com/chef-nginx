@@ -16,8 +16,7 @@ action_class do
 end
 
 action :create do
-  auto_ssl =
-    !new_resource.ssl_certificate_path || !new_resource.ssl_key_path
+  auto_ssl = !new_resource.ssl_certificate_path || !new_resource.ssl_key_path
 
   include_recipe "openresty"
 
