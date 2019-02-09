@@ -3,8 +3,8 @@ resource_name :nginx_upstream
 actions :create
 default_action :create
 
-property :name, String, default: "default"
-property :port, Integer
+property :name, String, name_property: true
+property :port, [Integer, String]
 
 action_class do
   include Nginx::Conf
