@@ -12,7 +12,9 @@ end
 action :create do
   include_recipe "openresty::luarocks"
 
-  openresty_luarock "lua-resty-auto-ssl"
+  openresty_luarock "lua-resty-auto-ssl" do
+    version node["nginx"]["lua-resty-auto-ssl"]["version"]
+  end
 
   auto_ssl_conf_path = ::File.join(nginx_conf_path(node: node), "auto-ssl.conf")
 
