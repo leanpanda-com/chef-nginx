@@ -12,7 +12,7 @@ server {
   error_log /var/log/nginx/<%= @domain %>_http_error.log;
 <%- end %>
 
-  <%- if @default_server %>
+  <%- if @acme_challenge %>
   # Endpoint used for performing domain verification with Let's Encrypt.
   location /.well-known/acme-challenge/ {
     content_by_lua_block {

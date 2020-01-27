@@ -5,6 +5,7 @@ default_action :create
 
 property :name, String, default: "default_server"
 property :default_server, [true, false], default: false
+property :acme_challenge, [true, false], default: true
 property :redirect_to_https, [true, false], default: false
 property :proxies, Hash, default: {}
 property :extras, Array, default: []
@@ -39,6 +40,7 @@ action :create do
     variables(
       domain: new_resource.name,
       default_server: new_resource.default_server,
+      acme_challenge: new_resource.acme_challenge,
       redirect_to_https: new_resource.redirect_to_https,
       proxies: new_resource.proxies,
       extras: new_resource.extras,
